@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <title>添加点标记</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <style>
+        body,
+        html,
+        #container {
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            font-family: "微软雅黑";
+        }
+
+
+    </style>
+    <script type="text/javascript"
+        src="//api.map.baidu.com/api?type=webgl&v=1.0&ak=VnhbAGLRjoC4sruDKKgfeRrP3HDE8XUE"></script>
+    <script src="./lat_lon.json"></script>
+</head>
+
+<body>
+
+
+    <div id="header" align="center" style="background-color: antiquewhite;margin: 0 auto;padding: 0;">
+        <p style="font-size: 25px;margin: 0 auto;">跑船兄弟位置显示</p>
+    </div>
+    <div id="container"></div>
+
+</body>
+
+</html>
+<script src="./lat_lon.json"></script>
+
+
+
+
+<script type="text/javascript">
+
+    var url = "lat_lon.json";
+    var request = new XMLHttpRequest();
+
+    request.open("get", url);
+    request.send(null);
+    request.onload = function () {
+        if (request.status == 200) {
+            var shipjson = JSON.parse(request.responseText);
+            var ship
+
+
+            var map = new BMapGL.Map('container');
+            map.centerAndZoom(new BMapGL.Point(116.404, 39.928), 0.00001);
+            map.enableScrollWheelZoom(true);
+
+
+            // 室友1
+            (function () {
+                var shipNumber = 0
+                var point = new BMapGL.Point(shipjson[shipNumber].lon, shipjson[shipNumber].lat)
+                var marker = new BMapGL.Marker(point);
+                map.addOverlay(marker);
+
+                var opts = {
+                    width: 200,
+                    height: 100,
+                    title: ''
+                };
+                var infoWindow = new BMapGL.InfoWindow(shipjson[shipNumber].name, opts);
+                marker.addEventListener('click', function () {
+                    map.openInfoWindow(infoWindow, point); // 开启信息窗口
+                });
+            })();
+
+
+
+
+
+
+
+            // 室友2
+            (function () {
+                var shipNumber = 1
+
+                var point = new BMapGL.Point(shipjson[shipNumber].lon, shipjson[shipNumber].lat);
+
+                var marker = new BMapGL.Marker(point);
+                map.addOverlay(marker);
+
+                var opts = {
+                    width: 200,
+                    height: 100,
+                    title: ''
+                };
+                var infoWindow = new BMapGL.InfoWindow(shipjson[shipNumber].name, opts);
+                // 点标记添加点击事件
+                marker.addEventListener('click', function () {
+                    map.openInfoWindow(infoWindow, point); // 开启信息窗口
+                });
+
+
+            })();
+
+
+            // 室友3
+            (function () {
+                var shipNumber = 2
+                var point = new BMapGL.Point(shipjson[shipNumber].lon, shipjson[shipNumber].lat);
+
+                var marker = new BMapGL.Marker(point);
+                map.addOverlay(marker);
+
+                var opts = {
+                    width: 200,
+                    height: 100,
+                    title: ''
+                };
+                var infoWindow = new BMapGL.InfoWindow(shipjson[shipNumber].name, opts);
+                // 点标记添加点击事件
+                marker.addEventListener('click', function () {
+                    map.openInfoWindow(infoWindow, point); // 开启信息窗口
+                });
+            })();
+        };  //if
+    }
+
+
+
+</script>
